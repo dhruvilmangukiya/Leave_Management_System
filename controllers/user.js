@@ -8,6 +8,7 @@ const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+// delete file
 function deleteFile(image) {
     const imagePath = path.join(__dirname, "../images/");
     fs.unlinkSync(imagePath + image);
