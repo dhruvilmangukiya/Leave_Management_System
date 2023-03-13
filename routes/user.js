@@ -36,11 +36,13 @@ router.post("/loginUser", user.signIn);
 
 router.get("/getAllUser",authUser, user.getUsersDetails);
 
-router.get("/getProfileDetails/:id",authUser, user.getProfileDetails);
+router.get("/getUserProfile",authUser, user.getUserProfile);
 
 router.post("/changePassword", authUser, user.changePassword);
 
-router.put("/updateProfile/:id",authUser,uploadImage,user.updateProfile);
+router.put("/updateUserProfile",authUser,uploadImage,user.updateUserProfile);
+
+router.put("/updateUserById/:id", authUser, uploadImage,user.updateUserById);
 
 router.delete("/deleteUser/:id",authUser,user.deleteUser);
 

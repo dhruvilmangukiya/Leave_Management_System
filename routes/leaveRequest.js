@@ -1,8 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const leaveRequest  = require('../controllers/leaveRequest');
+const leave  = require('../controllers/leaveRequest');
 const authUser = require("../middleware/auth");
 
-router.post("/leaveRequest",authUser, leaveRequest.leaveRequest);
+router.post("/leaveRequest",authUser, leave.leaveRequest);
+
+router.get("/viewUserLeaveStatus",authUser, leave.viewUserLeaveStatus);
+
+router.get("/viewLeaveBalance",authUser, leave.viewLeaveBalance);
+
+router.get("/updateLeaveStatus/:id",authUser, leave.updateLeaveStatus);
+
+router.get("/viewAllUserLeaveRequest",authUser, leave.viewAllUserLeaveRequest);
 
 module.exports = router;

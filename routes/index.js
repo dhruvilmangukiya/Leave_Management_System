@@ -6,6 +6,6 @@ const leaveRequestRoute = require("../routes/leaveRequest");
 router.use("/api/users", userRoute);
 
 // User Leave Route
-router.use("/api/leave", leaveRequestRoute);
+router.use("/api/applyLeave", leaveRequestRoute);
 
 module.exports = router;

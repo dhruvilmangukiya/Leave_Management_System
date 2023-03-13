@@ -23,7 +23,7 @@ module.exports = (sequelize,DataTypes) =>{
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        leaveType	: {
+        leaveType: {
             type: DataTypes.ENUM,
             allowNull: false,
             values: ['Full Day', 'First Half', 'Second Half']
@@ -32,7 +32,7 @@ module.exports = (sequelize,DataTypes) =>{
             type: DataTypes.STRING,
             allowNull: false
         },
-        status	: {
+        status: {
             type: DataTypes.ENUM,
             allowNull: false,
             values: ['Pending', 'Approved', 'Rejected'],
