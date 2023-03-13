@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const user  = require('../controllers/user');
-const auth = require("../middleware/auth");
+const authUser = require("../middleware/auth");
 const path = require("path");
 
 const multer = require('multer');
@@ -29,16 +29,24 @@ fileFilter: (req, file, cb) => {
     
 }).single('image');
 
+
 router.post("/addUser",uploadImage, user.signUp);
 
 router.post("/loginUser", user.signIn);
 
-// router.get("/getAllUser",auth, user.getUsersDetails);
+router.get("/getAllUser",authUser, user.getUsersDetails);
 
-router.get("/getProfileDetails/:id",auth, user.getProfileDetails);
+router.get("/getUserProfile",authUser, user.getUserProfile);
 
-router.post("/changePassword", auth, user.changePassword);
+router.post("/changePassword", authUser, user.changePassword);
 
-router.patch("/updateUserDetails/:id",auth,uploadImage,user.updateUserDetails);
+router.put("/updateUserProfile",authUser,uploadImage,user.updateUserProfile);
+
+router.put("/updateUserById/:id", authUser, uploadImage,user.updateUserById);
+
+router.delete("/deleteUser/:id",authUser,user.deleteUser);
+
+router.get("/roleWiseUserList",authUser, user.roleWiseUserList);
+
 
 module.exports = router;

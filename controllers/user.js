@@ -1,5 +1,7 @@
 const db = require("../database/config");
 const User = db.user;
+const Role = db.role;
+const UserLeaveModel = db.userLeaveModel;
 const Boom = require("@hapi/boom");
 const { messages } = require("../utils/message");
 const fs = require("fs");
@@ -8,7 +10,6 @@ const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
-// delete file
 function deleteFile(image) {
     const imagePath = path.join(__dirname, "../images/");
     fs.unlinkSync(imagePath + image);
@@ -26,14 +27,15 @@ module.exports.signUp = async (req, res, next) => {
         }
 
         const user = await User.create(data);
+        const userLeave = await UserLeaveModel.create({ userId: user.id });
 
         res.status(201).json({
-            statusCode: 201,
             message: 'User created successfully',
-            result: user
+            result: { user, userLeave }
         });
     }catch(error){
-        return next(Boom.badData(error));
+        req.file ? deleteFile(req.file.filename) : "";
+        return next(Boom.badImplementation());
     }
 };
 
@@ -67,17 +69,15 @@ module.exports.signIn = async (req, res, next) => {
                 user_email: user.email
             }, process.env.TOKEN_KEY,
             {
-                expiresIn: "2h",
+                expiresIn: "12h",
             }
         );
 
         res.status(200).json({
-            statusCode:200,
             message: "Login Successfully", token: token
         });
     }
     catch(error){
-        console.log(error);
         return next(Boom.badImplementation());
     }
 };
@@ -90,7 +90,6 @@ module.exports.getUsersDetails = async (req, res, next) => {
             }
         });
         res.status(200).json({
-            statusCode: 200,
             result: users || []
         });
     }catch(error){
@@ -98,9 +97,9 @@ module.exports.getUsersDetails = async (req, res, next) => {
     }
 }
 
-module.exports.getProfileDetails = async (req, res, next) => {
+module.exports.getUserProfile = async (req, res, next) => {
     try{
-        const { id } = req.params;
+        const id = req.user;
         const user = await User.findOne({
             where :{ id },
             attributes:{
@@ -111,7 +110,6 @@ module.exports.getProfileDetails = async (req, res, next) => {
         if(!user) return next(Boom.badData(messages.RECORD_NOT_FOUND));
         
         res.status(200).json({
-            statusCode: 200,
             result: user
         });
     }catch(error){
@@ -142,7 +140,6 @@ module.exports.changePassword = async(req, res, next) => {
         
         if(!(data.newpwd == data.cpwd)){
             return res.status(422).json({ 
-                statusCode: 422,
                 message: "New Password And Confirm Password Not Match" 
             });
         } 
@@ -159,14 +156,17 @@ module.exports.changePassword = async(req, res, next) => {
     }
 }
 
-module.exports.updateUserDetails = async (req, res, next) => {
+module.exports.updateUserProfile = async (req, res, next) => {
     try{
-        const { id } = req.params;
+        const id = req.user;
         const data = req.body;
 
         let user = await User.findOne({where :{ id }});
         
-        if(!user) return next(Boom.badData(messages.RECORD_NOT_FOUND));
+        if(!user) {
+             req.file ? deleteFile(req.file.filename) : "";
+            return next(Boom.badData(messages.RECORD_NOT_FOUND));
+        }
 
         const schema = Joi.object().keys({
             name: Joi.string().required(),
@@ -185,26 +185,18 @@ module.exports.updateUserDetails = async (req, res, next) => {
             deleteFile(user.image);
         }
 
-        let updateImg;
-        updateImg = req.file ? req.file.filename : user.image;
+        data.image = req.file ? req.file.filename : user.image;
 
-        await User.update({
-            name : data.name, 
-            gender : data.gender, 
-            phone : data.phone, 
-            address: data.address,
-            department: data.department,
-            class: data.class,
-            image : updateImg,
-            updatedAt:new Date()
-        }, 
-        {
+        await User.update(data,{ 
             where :{ id }
         });
 
-        user = await User.findOne({where :{ id }});
+        user = await User.findOne({
+            where :{ id },
+            attributes:{ exclude:['password'] }
+        });
+
         res.status(200).json({
-            statusCode: 200,
             message: `User ${id} updted successfully`,
             result: user
         });
@@ -213,4 +205,94 @@ module.exports.updateUserDetails = async (req, res, next) => {
         req.file ? deleteFile(req.file.filename) : "";
         return next(Boom.badImplementation());
     }
+}
+
+module.exports.updateUserById = async (req, res, next) => {
+    try{
+        const { id } = req.params;
+        const data = req.body;
+
+        let user = await User.findOne({where :{ id }});
+        
+        if(!user) {
+             req.file ? deleteFile(req.file.filename) : "";
+            return next(Boom.badData(messages.RECORD_NOT_FOUND));
+        }
+
+        const schema = Joi.object().keys({
+            name: Joi.string().required(),
+            gender: Joi.string().required(),
+            phone: Joi.string().required(),
+            address: Joi.string().required(),
+            department: Joi.string().required(),
+            class: Joi.string().required(),
+        });
+
+        const {error} = schema.validate(data);
+
+        if (error) return next(Boom.badData(error.message));
+
+        if(req.file){
+            deleteFile(user.image);
+        }
+
+        data.image = req.file ? req.file.filename : user.image;
+
+        await User.update(data,{ 
+            where :{ id }
+        });
+
+        user = await User.findOne({
+            where :{ id },
+            attributes:{ exclude:['password'] }
+        });
+
+        res.status(200).json({
+            message: `User ${id} updted successfully`,
+            result: user
+        });
+    }
+    catch(error){
+        req.file ? deleteFile(req.file.filename) : "";
+        return next(Boom.badImplementation());
+    }
+}
+
+module.exports.deleteUser = async (req, res, next) => {
+    try{
+        const { id } = req.params;
+        const user = await User.findOne({where :{ id }});
+
+        if(!user) return next(Boom.badData(messages.RECORD_NOT_FOUND));
+
+        await User.destroy({where :{ id }});
+        deleteFile(user.image);
+        
+        res.status(200).json({
+            message: `User ${id} deleted successfully`
+        });
+    }
+    catch(error){
+        return next(Boom.badImplementation());
+    }
+}
+
+module.exports.roleWiseUserList = async (req, res, next) => {
+    try{
+        const user = await Role.findAll({ 
+            attributes: ['id','name','priority'],
+            include:{
+                model: User
+            },
+            attributes:{
+                exclude:['password']
+            }
+        });
+
+        res.status(200).json({
+            result: user || []
+        });
+    }catch(error){
+        return next(Boom.badImplementation());
+    }   
 }
