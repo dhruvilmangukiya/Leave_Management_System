@@ -1,0 +1,113 @@
+<div class="container-fluid">
+    <div class="p-4">
+        <div>
+            <p class="fs-2">{{ isAddMode ? 'Apply Leave' : 'Update Leave' }}</p>
+        </div>
+        <hr>
+        <div class="d-flex pt-4">
+            <div class="col-md-8 shadow-lg" style="border-radius: 15px; border: 1px solid transparent">
+                <div class="bg-dark p-4" style="border-top-right-radius: 15px; border-top-left-radius: 15px;">
+                    <h3 class="text-white m-0">{{ isAddMode ? 'Apply Leave' : 'Update Leave' }}</h3>
+                </div>
+
+                <div class="p-4">
+                    <form class="row g-4 px-2" enctype="multipart/form-data" [formGroup]="applyLeaveForm" (ngSubmit)="onSubmit()">
+                        <div class="col-md-5">
+                            <label class="form-label" for="startDate">Start Date</label>
+                            <input  type="date" 
+                                    class="form-control" 
+                                    [ngClass]="{'is-invalid': submitted && f['startDate'].errors}"  
+                                    formControlName="startDate">
+        
+                            <div *ngIf="submitted && f['startDate'].errors">  
+                                <span *ngIf="f['startDate'].errors['required']">Start Date is required.</span>
+                            </div>
+                        </div>
+        
+                        <div class="col-md-2 d-flex justify-content-center">   
+                            <p style="padding-top: 38px; margin: 0px">To</p>
+                        </div>
+        
+                        <div class="col-md-5">
+                            <label class="form-label" for="endDate">End Date</label>
+                            <input  type="date" 
+                                    class="form-control" 
+                                    [ngClass]="{'is-invalid': submitted && f['endDate'].errors}"  
+                                    formControlName="endDate">
+        
+                            <div *ngIf="submitted && f['endDate'].errors">  
+                                <span *ngIf="f['endDate'].errors['required']">End Date is required.</span>
+                            </div>
+                        </div>
+        
+                        <div>
+                            <label class="form-label" for="reason">Reason</label>
+                            <textarea   class="form-control" formControlName="reason"
+                                        maxlength="150" rows="4" 
+                                        placeholder="Enter Reason"
+                                        [ngClass]="{'is-invalid': submitted && f['reason'].errors}">
+                            </textarea>
+        
+                            <div *ngIf="submitted && f['reason'].errors">  
+                                <span *ngIf="f['reason'].errors['required']">Reason is required.</span>
+                            </div>
+                        </div>
+        
+        
+                        <div class="d-flex">
+                            <label class="form-label" for="leaveType">Leave Type</label>
+                            <div  class="mx-3" [ngClass]="{'is-invalid': submitted && f['leaveType'].errors}" >
+                                <div class="form-check leaveType pt-0">
+                                    <input class="form-check-input" type="radio" formControlName="leaveType" name="leaveType" value="Full Day">
+                                    <label class="form-check-label" for="Full Day">Full Day</label>
+                                    <code>(9AM to 6PM)</code>
+                                </div>
+                                <div class="form-check leaveType">
+                                    <input class="form-check-input" type="radio" formControlName="leaveType" name="leaveType" value="First Half">
+                                    <label class="form-check-label" for="First Half">First Half</label>
+                                    <code>(9AM to 1PM)</code>
+                                </div>
+                                <div class="form-check leaveType">
+                                    <input class="form-check-input" type="radio" formControlName="leaveType" name="leaveType" value="Second Half">
+                                    <label class="form-check-label" for="Second Half">Second Half</label>
+                                    <code>(2AM to 6PM)</code>
+                                </div>
+                            </div>
+        
+                            <div *ngIf="submitted && f['leaveType'].errors">  
+                                <span *ngIf="f['leaveType'].errors['required']">Leave Type is required.</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="form-label" for="requestToId">Request To</label>
+                            <select class="form-select" 
+                                    [ngClass]="{'is-invalid': submitted && f['requestToId'].errors}"
+                                    formControlName="requestToId">
+                                <option value="" selected disabled hidden>Select the Admin, HOD, FAculty</option>
+                                <option value="1">Admin</option>
+                                <option value="2">HOD</option>
+                                <option value="3">Faculty</option>
+                            </select>
+                            
+                            <div *ngIf="submitted && f['requestToId'].errors">  
+                                <span *ngIf="f['requestToId'].errors['required']">Request To is required.</span>
+                            </div>
+                        </div>
+        
+                        <div class="col-md-12 d-flex justify-content-end">
+                            <input type="reset" class="btn btn-danger col-md-2 me-3" value="Clear">
+                            <input type="submit"  class="btn btn-primary col-md-2" value="{{ isAddMode ? 'Apply Leave' : 'Update Leave' }}">
+                        </div>
+                    </form>
+                </div>
+            </div>
+    
+            <div class="col-md-4 p-4">
+                <h4 class="text-end">
+                    Balance Leave :<b class="ps-2"  [ngStyle]="{'color': balanceLeave < 0 ? 'red' : 'green'}"> {{balanceLeave}}</b>
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>

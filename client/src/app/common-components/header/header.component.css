@@ -1,0 +1,24 @@
+.navbar{
+    height: 70px;
+}
+.d-flex {
+    justify-content: space-between;
+}
+
+ul li a{
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.nav-link::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 3px;
+    background: orange;
+    transition: width .3s;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}

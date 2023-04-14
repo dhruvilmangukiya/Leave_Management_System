@@ -1,0 +1,37 @@
+<div class="bg-dark col-md-2">
+    <div class="minHeight">
+        <ul class="nav w-100">
+            <li class="w-100">
+                <a class="nav-link align-middle" routerLink="/{{role}}/dashboard" routerLinkActive="active-link">
+                    <i class="fs-4 fa-solid fa-house-chimney"></i> 
+                    <span class="ms-1 d-none d-sm-inline">Dashboard</span> 
+                </a>
+
+                <a *ngIf="role === 'student'" class="nav-link align-middle" routerLink="/student/apply-leave" routerLinkActive="active" routerLinkActive="active-link">
+                    <i class="fs-4 fa-solid fa-calendar-days"></i> 
+                    <span class="ms-1 d-none d-sm-inline">Apply Leave</span> 
+                </a>
+
+                <a *ngIf="role === 'student'" class="nav-link align-middle" routerLink="/student/my-leave" routerLinkActive="active" routerLinkActive="active-link">
+                    <i class="fs-4 fa-solid fa-calendar-days"></i> 
+                    <span class="ms-1 d-none d-sm-inline">My Leave</span> 
+                </a>
+
+                <a *ngIf="role === 'faculty'" class="nav-link align-middle" routerLink="/faculty/leave-approval" routerLinkActive="active" routerLinkActive="active-link">
+                    <i class="fs-4 fa-solid fa-calendar-days"></i> 
+                    <span class="ms-1 d-none d-sm-inline">Leave Approval</span> 
+                </a>
+
+                <a *ngIf="role === 'admin'" class="nav-link align-middle" routerLink="/admin/manage-user" routerLinkActive="active" routerLinkActive="active-link">
+                    <i class="fs-4 fa-solid fa-calendar-days"></i> 
+                    <span class="ms-1 d-none d-sm-inline">Manage User</span> 
+                </a>
+
+                <a *ngIf="role === 'admin'" class="nav-link align-middle" routerLink="/admin/leave-reports" routerLinkActive="active" routerLinkActive="active-link">
+                    <i class="fs-4 fa-solid fa-file"></i> 
+                    <span class="ms-1 d-none d-sm-inline">Leave Reports</span> 
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+span{
+    color: red;
+}
+
+.leaveType{
+    padding-top: 10px;
+}
+
+.leaveType code{
+    padding-left: 10px;
+}

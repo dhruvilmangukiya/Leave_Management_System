@@ -1,0 +1,170 @@
+<div class="container">
+    <div class="row min-vh-100">
+        <div class="col-md-8 mx-auto my-auto shadow-lg p-5 bg-body rounded">
+            <h2 class="text-center mb-4">Student Registration</h2>
+            <form class="row g-4" enctype="multipart/form-data" [formGroup]="signUpForm" (ngSubmit)="onSubmit()" noValidate>
+                <div class="col-md-6">
+                    <label class="form-label" for="name">Name</label>
+                    <input  type="text" 
+                            class="form-control" 
+                            [ngClass]="{'is-invalid': submitted && f['name'].errors}"  
+                            formControlName="name" 
+                            placeholder="Enter Name">
+
+                    <div *ngIf="submitted && f['name'].errors">  
+                        <span *ngIf="f['name'].errors['required']">Name is required.</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="email">Email</label>
+                    <input  type="email" 
+                            class="form-control" 
+                            [ngClass]="{'is-invalid': submitted && f['email'].errors}" 
+                            formControlName="email"  
+                            placeholder="Enter Email">
+
+                    <div *ngIf="submitted && f['email'].errors">  
+                        <span *ngIf="f['email'].errors['required']">Email is required.</span>  
+                        <span *ngIf="f['email'].errors['email']">Email is invalid</span>  
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="pwd">Password</label>
+                    <input  type="password"
+                            class="form-control"
+                            [ngClass]="{'is-invalid': submitted && f['password'].errors}"
+                            formControlName="password" 
+                            placeholder="Enter Password">
+
+                    <div *ngIf="submitted && f['password'].errors">
+                        <span *ngIf="f['password'].errors['required']">Password can not be empty</span>  
+                        <span *ngIf="f['password'].errors['minlength']">Password must be at least 8 characters long</span>  
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="cpwd">Confirm Password</label>
+                    <input  type="password" 
+                            class="form-control" 
+                            formControlName="cpassword" 
+                            [ngClass]="{'is-invalid': submitted && f['cpassword'].errors}" 
+                            placeholder="Enter Confirm Password">
+
+                    <div *ngIf="submitted && f['cpassword'].errors">  
+                        <span *ngIf="f['cpassword'].errors['required']">Confirm Password can not be empty</span>  
+                        <span *ngIf="f['cpassword'].errors['minlength']">Confirm Password must be at least 8 characters long</span>  
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="gender">Gender</label>
+                    <div class="py-2 d-flex" [ngClass]="{'is-invalid': submitted && f['gender'].errors}" >
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" formControlName="gender" name="gender" value="male">
+                            <label class="form-check-label" for="male">Male</label>
+                        </div>
+                        <div class="form-check mx-3">
+                            <input class="form-check-input" type="radio" formControlName="gender" name="gender" value="female">
+                            <label class="form-check-label" for="female">Female</label>
+                        </div>
+                    </div>
+
+                    <div *ngIf="submitted && f['gender'].errors">  
+                        <span *ngIf="f['gender'].errors['required']">Gender is required.</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label" for="phone">Phone Number</label>
+                    <input  type="text" class="form-control" 
+                            [ngClass]="{'is-invalid': submitted && f['phone'].errors}" 
+                            maxlength="10" formControlName="phone" 
+                            placeholder="Enter Phone Number">
+
+                    <div *ngIf="submitted && f['phone'].errors">  
+                        <span *ngIf="f['phone'].errors['required']">Mobile Number is required.</span>  
+                        <span *ngIf="f['phone'].errors['pattern']">Please, Enter 10 digit Mobile Number.</span>  
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label" for="address">Address</label>
+                    <textarea   class="form-control" formControlName="address"
+                                maxlength="150" rows="4" 
+                                placeholder="Enter Address"
+                                [ngClass]="{'is-invalid': submitted && f['address'].errors}">
+                    </textarea>
+
+                    <div *ngIf="submitted && f['address'].errors">  
+                        <span *ngIf="f['address'].errors['required']">Address is required.</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="grNumber">GR Number</label>
+                    <input  type="text" class="form-control" 
+                            formControlName="grNumber"
+                            [ngClass]="{'is-invalid': submitted && f['grNumber'].errors}"
+                            placeholder="Enter GR Number">
+
+                    <div *ngIf="submitted && f['grNumber'].errors">  
+                        <span *ngIf="f['grNumber'].errors['required']">GR Number is required.</span>
+                        <span *ngIf="f['grNumber'].errors['pattern']">Please, Enter 4 digit Gr Number.</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="department">Department</label>
+                    <select id="department" class="form-select form-select-md" 
+                            [ngClass]="{'is-invalid': submitted && f['department'].errors}"
+                            formControlName="department">
+                        <option value="" hidden>Select Department</option>
+                        <option value="bca">BCA</option>
+                        <option value="bba">BBA</option>
+                        <option value="bcom">BCOM</option>
+                    </select>
+                    
+                    <div *ngIf="submitted && f['department'].errors">  
+                        <span *ngIf="f['department'].errors['required']">Department is required.</span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="class">Class</label>
+                    <input  type="text" class="form-control" 
+                            formControlName="class" 
+                            [ngClass]="{'is-invalid': submitted && f['class'].errors}"
+                            placeholder="Enter Class">
+
+                    <div *ngIf="submitted && f['class'].errors">  
+                        <span *ngIf="f['class'].errors['required']">Class is required.</span>
+                    </div>
+                </div>  
+
+                <div>
+                    <label for="image" class="form-label">Profile Image</label>
+                    <input formControlName="image" class="form-control form-control-md"
+                            [ngClass]="{'is-invalid': submitted && f['image'].errors}"
+                            (change)="onFileSelected($event)"
+                            type="file">
+
+                    <div *ngIf="submitted && f['image'].errors">  
+                        <span *ngIf="f['image'].errors['required']">Profile Image is required.</span>
+                    </div>
+                </div>                  
+
+                <div class="col-md-12 d-flex justify-content-end">
+                    <div class="col-md-8 d-flex align-items-center ps-3">
+                        <p class="m-0">Already have an account ?</p>
+                        <a class="px-2" routerLink="/login">Sign In</a>
+                    </div>
+
+                    <input type="reset" class="btn btn-danger col-md-2 me-3" value="Clear">
+                    <input type="submit"  class="btn btn-primary col-md-2" value="Sign Up">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>  

@@ -1,0 +1,302 @@
+<div class="container py-5">
+    <div class="row d-flex shadow-lg rounded">
+        <div class="bg-dark p-2 d-flex justify-content-between p-4" style="border-top-right-radius: 15px; border-top-left-radius: 15px;">
+            <h3 class="text-white m-0">My Profile</h3>
+            <div class="text-end">
+                <a class="btn btn-primary" data-toggle="modal" (click)="onChangePassword()" data-target="#changePasswordModal">Chnage Password</a>
+            </div>
+        </div>
+        
+        <hr class="py-2">
+
+        <div class="d-flex pb-3">
+            <div class="card-body main-content col-md-3 pb-4 d-flex flex-column align-items-center text-center">
+                <div class="d-flex justify-content-between">
+                    <img [src]="profileImage" id="profileImg" alt="Admin" class="rounded-circle" width="200" height="200">
+                    <i  class='fas fa-user-edit text-primary fs-2 me-2' style="cursor: pointer;" (click)="onUpdateProfileImage()" title="Edit Profile"></i>
+                    <input id="fileInput" type="file" style="display:none" (change)="onFileSelected(profileData.id, $event)">
+                </div>
+                
+                <div class="mt-3">
+                    <h4>{{profileData.name}}</h4>
+                    <p class="text-secondary m-0">{{profileData.email}}</p>
+                    <p class="text-secondary m-0 font-size-sm">({{role}})</p>
+                </div>
+                <div class="text-end">
+                    <a class="btn btn-primary mt-4" (click)="onEditProfile()" data-bs-toggle='modal' data-bs-target='#exampleModal' data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile">Edit Profile</a>
+                </div>
+            </div>
+            <div class="card-body col-md-9 p-4">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{profileData.name}}
+                    </div>
+                </div>
+                
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{profileData.email}}
+                    </div>
+                </div>
+            
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Gender</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{profileData.gender}}
+                    </div>
+                </div>
+
+                <hr *ngIf="role === 'student'">
+                <div class="row" *ngIf="role === 'student'">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">GR Number</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{profileData.grNumber}}
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Phone</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{profileData.phone}}
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Addres</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{profileData.address}}
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row" *ngIf="role !== 'admin'">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Department</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{profileData.department | uppercase}}
+                    </div>
+                </div>
+
+                <hr *ngIf="role === 'student'">
+                <div class="row" *ngIf="role === 'student'">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Class</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        {{profileData.class}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="updateProfileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">  
+                        <h5 class="modal-title" id="exampleModalLabel">Update Profile</h5>
+                    </div>
+                    <div class="model-body">
+                        <form class="row g-4" enctype="multipart/form-data" [formGroup]="updateProfileForm" (ngSubmit)="onUpdateProfile()">
+                            <div class="col-md-6 ps-5 pt-4">
+                                <label class="form-label" for="name">Name</label>
+                                <input  type="text" 
+                                        class="form-control" 
+                                        [ngClass]="{'is-invalid': submitted && f['name'].errors}"  
+                                        formControlName="name" 
+                                        placeholder="Enter Name">
+            
+                                <div *ngIf="submitted && f['name'].errors">  
+                                    <span *ngIf="f['name'].errors['required']">Name is required.</span>
+                                </div>
+                            </div>
+            
+                            <div class="col-md-6 pt-4 pe-5">
+                                <label class="form-label" for="email">Email</label>
+                                <input  type="email" 
+                                        class="form-control" 
+                                        [ngClass]="{'is-invalid': submitted && f['email'].errors}" 
+                                        formControlName="email"  
+                                        placeholder="Enter Email">
+            
+                                <div *ngIf="submitted && f['email'].errors">  
+                                    <span *ngIf="f['email'].errors['required']">Email is required.</span>  
+                                    <span *ngIf="f['email'].errors['email']">Email is invalid</span>  
+                                </div>
+                            </div>
+            
+                            <div class="col-md-6 ps-5">
+                                <label class="form-label" for="gender">Gender</label>
+                                <div class="py-2 d-flex" [ngClass]="{'is-invalid': submitted && f['gender'].errors}" >
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" formControlName="gender" name="gender" value="male">
+                                        <label class="form-check-label" for="male">Male</label>
+                                    </div>
+                                    <div class="form-check mx-3">
+                                        <input class="form-check-input" type="radio" formControlName="gender" name="gender" value="female">
+                                        <label class="form-check-label" for="female">Female</label>
+                                    </div>
+                                </div>
+            
+                                <div *ngIf="submitted && f['gender'].errors">  
+                                    <span *ngIf="f['gender'].errors['required']">Gender is required.</span>
+                                </div>
+                            </div>
+            
+                            <div class="col-md-6 pe-5">
+                                <label class="form-label" for="phone">Phone Number</label>
+                                <input  type="text" class="form-control" 
+                                        [ngClass]="{'is-invalid': submitted && f['phone'].errors}" 
+                                        maxlength="10" formControlName="phone" 
+                                        placeholder="Enter Phone Number">
+            
+                                <div *ngIf="submitted && f['phone'].errors">  
+                                    <span *ngIf="f['phone'].errors['required']">Mobile Number is required.</span>  
+                                    <span *ngIf="f['phone'].errors['pattern']">Please, Enter 10 digit Mobile Number.</span>  
+                                </div>
+                            </div>
+            
+                            <div class="px-5">
+                                <label class="form-label" for="address">Address</label>
+                                <textarea   class="form-control" formControlName="address"
+                                            maxlength="150" rows="4" 
+                                            placeholder="Enter Address"
+                                            [ngClass]="{'is-invalid': submitted && f['address'].errors}">
+                                </textarea>
+            
+                                <div *ngIf="submitted && f['address'].errors">  
+                                    <span *ngIf="f['address'].errors['required']">Address is required.</span>
+                                </div>
+                            </div>
+            
+                            <div class="col-md-4 ps-5" *ngIf="role === 'student'">
+                                <label class="form-label" for="grNumber">GR Number</label>
+                                <input  type="number" class="form-control" 
+                                        formControlName="grNumber"
+                                        [ngClass]="{'is-invalid': submitted && f['grNumber'].errors}"
+                                        placeholder="Enter GR Number">
+            
+                                <div *ngIf="submitted && f['grNumber'].errors">  
+                                    <span *ngIf="f['grNumber'].errors['required']">GR Number is required.</span>
+                                </div>
+                            </div>
+            
+                            <div class="col-md-4" *ngIf="role !== 'admin'" [ngClass]="role !== 'student' ? 'ps-5' : ''">
+                                <label class="form-label" for="department">Department</label>
+                                <select id="department" class="form-select form-select-md" 
+                                        [ngClass]="{'is-invalid': submitted && f['department'].errors}"
+                                        formControlName="department">
+                                    <option value="" selected hidden>Select Department</option>
+                                    <option value="bca">BCA</option>
+                                    <option value="bba">BBA</option>
+                                    <option value="bcom">BCOM</option>
+                                </select>
+                                
+                                <div *ngIf="submitted && f['department'].errors">  
+                                    <span *ngIf="f['department'].errors['required']">Department is required.</span>
+                                </div>
+                            </div>
+            
+                            <div class="col-md-4 pb-4 pe-5" *ngIf="role === 'student'">
+                                <label class="form-label" for="class">Class</label>
+                                <input  type="text" class="form-control" 
+                                        formControlName="class" 
+                                        [ngClass]="{'is-invalid': submitted && f['class'].errors}"
+                                        placeholder="Enter Class">
+            
+                                <div *ngIf="submitted && f['class'].errors">  
+                                    <span *ngIf="f['class'].errors['required']">Class is required.</span>
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            <div class="text-end m-0 pe-5 pb-3">
+                                <button type="button" class="btn btn-danger me-2" id="closeBtns" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">  
+                        <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                    </div>
+                    <div class="model-body">
+                        <form class="row g-4" enctype="multipart/form-data" [formGroup]="changePasswordForm" (ngSubmit)="onUpdatePassword()">
+                            <div class="px-5 pt-4">
+                                <label class="form-label" for="oldpwd">Old Password</label>
+                                <input  type="password"
+                                        class="form-control"
+                                        [ngClass]="{'is-invalid': submitted && c['oldpwd'].errors}"
+                                        formControlName="oldpwd" 
+                                        placeholder="Enter Old Password">
+            
+                                <div *ngIf="submitted && c['oldpwd'].errors">
+                                    <span *ngIf="c['oldpwd'].errors['required']">Password can not be empty</span>  
+                                    <span *ngIf="c['oldpwd'].errors['minlength']">Password must be at least 8 characters long</span>  
+                                </div>
+                            </div>
+
+                            <div class="px-5">
+                                <label class="form-label" for="newpwd">New Password</label>
+                                <input  type="password"
+                                        class="form-control"
+                                        [ngClass]="{'is-invalid': submitted && c['newpwd'].errors}"
+                                        formControlName="newpwd" 
+                                        placeholder="Enter New Password">
+            
+                                <div *ngIf="submitted && c['newpwd'].errors">
+                                    <span *ngIf="c['newpwd'].errors['required']">Password can not be empty</span>  
+                                    <span *ngIf="c['newpwd'].errors['minlength']">Password must be at least 8 characters long</span>  
+                                </div>
+                            </div>
+            
+                            <div class="px-5">
+                                <label class="form-label" for="cpwd">Confirm Password</label>
+                                <input  type="password" 
+                                        class="form-control" 
+                                        formControlName="cpwd" 
+                                        [ngClass]="{'is-invalid': submitted && c['cpwd'].errors}" 
+                                        placeholder="Enter Confirm Password">
+            
+                                <div *ngIf="submitted && c['cpwd'].errors">  
+                                    <span *ngIf="c['cpwd'].errors['required']">Confirm Password can not be empty</span>  
+                                    <span *ngIf="c['cpwd'].errors['minlength']">Confirm Password must be at least 8 characters long</span>  
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            <div class="text-end m-0 pe-5 pb-3">
+                                <button type="button" id="closeBtn" class="btn btn-danger me-2 closeBtn" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

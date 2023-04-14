@@ -1,0 +1,43 @@
+<div class="container">
+    <div class="row mt-6 min-vh-100 d-flex justify-content-center align-items-center m-0">
+        <div class="col-md-5 shadow-lg p-4 mb-5 bg-body rounded">
+            <h2 class="text-center mb-3">Sign In</h2>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="row g-4" >
+                <div class="form-group">
+                    <label class="form-label" cl for="">Email</label>
+                    <input  type="email" class="form-control" 
+                            formControlName="email" 
+                            placeholder="Enter Email"
+                            [ngClass]="{'is-invalid': submitted && f['email'].errors}">
+
+                    <div *ngIf="submitted && f['email'].errors">  
+                        <span *ngIf="f['email'].errors['required']">Email is required.</span>  
+                        <span *ngIf="f['email'].errors['email']">Email is invalid</span>  
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="">Password</label>
+                    <input  type="password" class="form-control" 
+                            formControlName="password" 
+                            placeholder="Enter Password"
+                            [ngClass]="{'is-invalid': submitted && f['password'].errors}" >
+
+                    <div *ngIf="submitted && f['password'].errors">  
+                        <span *ngIf="f['password'].errors['required']">Password can not be empty</span>  
+                        <span *ngIf="f['password'].errors['minlength']">Password must be at least 8 characters long</span>  
+                    </div>
+                </div>
+
+                <div>
+                    <input type="submit" class="btn btn-primary w-100 mt-2" value="Login">
+                </div>
+
+                <div class="d-flex justify-content-center p-3">
+                    <p class="m-0">Don't have an account ?</p>
+                    <a class="px-2" routerLink="/student/register" href="#">Sign Up as Student </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>  

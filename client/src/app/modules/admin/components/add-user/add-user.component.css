@@ -1,0 +1,7 @@
+.container{
+    min-height: calc(100vh - 70px);
+}
+
+span{
+    color: red;
+}

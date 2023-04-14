@@ -1,0 +1,108 @@
+<div class="container-fluid">
+    <div class="p-4">
+        <div>
+            <p class="fs-2">Leave Approval</p>
+        </div>
+
+        <hr>
+
+        <div>
+            <div class="col-md-12 pt-4">
+                <div class="col-6 d-flex align-items-center mb-4">
+                    <span style="color: black;">Show</span>
+                    <select class="form-select mx-2" #page (change)="onChange(this.page.value)" style="max-width:80px">
+                        <option value="5">05</option>
+                        <option value="10" [defaultSelected]="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                    <span style="color: black;">Records Per Page</span>
+                </div>
+
+                <div style="min-height: 576px;">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Reason</th>
+                                <th>Leave Type</th>
+                                <th>Leave From</th>
+                                <th>Leave To</th>
+                                <th class="text-center">Status</th>
+                                <th colspan="2" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            <tr *ngIf="!pendingLeaveList.length">
+                                <td colspan="7" class="text-center">Leave Record Empty</td>
+                            </tr>
+    
+                            <tr *ngFor="let leave of pendingLeaveList | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }">
+                                <td>{{leave.user.name | titlecase}}</td>
+                                <td>{{leave.reason | titlecase}}</td>
+                                <td>{{leave.leaveType}}</td>
+                                <td>{{leave.startDate | date: 'dd/MM/YYYY'}}</td>
+                                <td>{{leave.endDate | date: 'dd/MM/YYYY'}}</td>
+                                <td class="d-flex justify-content-center">
+                                    <p class="text-white text-center py-1 mb-0" style="width: 100px" [ngStyle]="{'background-color': leave.status === 'Approved' && 'green' || leave.status === 'Rejected' && 'red' || leave.status === 'Pending' && 'gray' }">
+                                        {{leave.status}}
+                                    </p>
+                                </td>
+                                <td class="text-center">
+                                    <a class="editStatusBtn" (click)="updateStatus(leave.id)" data-bs-toggle="modal" data-bs-target="#leaveApprovalModal">
+                                        <i class='fas fa-edit text-primary fs-5' title="Edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+
+                <div class="d-flex justify-content-center align-content-center mt-4">
+                    <pagination-controls 
+                        class="h5" (pageChange)="onPageChange($event)" 
+                        currentPage="currentPage" itemsPerPage="itemsPerPage" 
+                        totalItems="totalItems">
+                    </pagination-controls>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="leaveApprovalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Leave Approval</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" class="row g-4" [formGroup]="leaveApprovalForm" (ngSubmit)="onSubmit()">
+                        
+                            <div class="col-md-12">
+                                <label for="status" class="form-label">Status :</label>
+                                <select class="form-select" name="status" 
+                                    [ngClass]="{'is-invalid': submitted && f['status'].errors}" formControlName="status">
+                                    <option value="" selected hidden>Select Status</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+            
+                                <div *ngIf="submitted && f['status'].errors">  
+                                    <span *ngIf="f['status'].errors['required']">Leave status is required.</span>
+                                </div>
+                            </div>
+            
+                            <div class="modal-footer col-md-12 pb-0 d-flex justify-content-end">
+                                <button type="button" id="closeBtn" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Update Status</button>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>

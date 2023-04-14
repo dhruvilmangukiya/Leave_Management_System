@@ -1,0 +1,14 @@
+td{
+    vertical-align: middle;
+}
+.editStatusBtn{
+    cursor: pointer;
+}
+
+span{
+    color: red;
+}
+
+th, td{
+    padding: 10px;
+}

@@ -1,0 +1,44 @@
+<div class="container-fluid">
+    <div class="p-4">
+        <div>
+            <p class="fs-2">Admin Dashboard</p>
+        </div>
+
+        <hr>
+        
+        <div class="row pt-4">
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card bg-info text-white h-100">
+                    <div class="card-body bg-info">
+                        <h2>Total Student</h2>
+                        <h1 class="display-5">{{roleList.student < 10 ? '0'+roleList.student : roleList.student }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-success h-100">
+                    <div class="card-body bg-success">
+                        <h2>Total Faculty</h2>
+                        <h1 class="display-5">{{roleList.faculty < 10 ? '0'+roleList.faculty : roleList.faculty }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-primary h-100">
+                    <div class="card-body bg-primary">
+                        <h2>Total HOD</h2>
+                        <h1 class="display-5">{{roleList.hod < 10 ? '0'+roleList.hod : roleList.hod }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white h-100" style="background: #EE541A;">
+                    <div class="card-body" style="background: #EE541A;">
+                        <h2>Total Admin</h2>
+                        <h1 class="display-5">{{roleList.admin < 10 ? '0'+roleList.admin : roleList.admin }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "dhruvil",
+    "password": "Password@123",
+    "database": "leave_management",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": false
+  },
+  "test": {
+    "username": "dhruvil",
+    "password": "Password@123",
+    "database": "leave_management",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": false
+  },
+  "production": {
+    "username": "dhruvil",
+    "password": "Password@123",
+    "database": "leave_management",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": false
+  }
+}

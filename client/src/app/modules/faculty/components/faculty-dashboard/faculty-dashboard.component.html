@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <div class="p-4">
+        <div>
+            <p class="fs-2">Faculty Dashboard</p>
+        </div>
+
+        <hr>
+        <div class="row pt-4">
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card bg-info text-white h-100">
+                    <div class="card-body bg-info">
+                        <h2>Leave Request</h2>
+                        <h1 class="display-5">{{allLeave < 10 ? '0'+allLeave : allLeave}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-primary h-100">
+                    <div class="card-body">
+                        <h2>Total Student</h2>
+                        <h1 class="display-5">{{totalStudent < 10 ? '0'+totalStudent : totalStudent}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

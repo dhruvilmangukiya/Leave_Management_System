@@ -1,0 +1,43 @@
+<div class="container-fluid">
+    <div class="p-4">
+        <div>
+            <p class="fs-2">Dashboard</p>
+        </div>
+
+        <hr>
+        <div class="row pt-4">
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card bg-info text-white h-100">
+                    <div class="card-body bg-info">
+                        <h2>Pending Leave</h2>
+                        <h1 class="display-5">{{leaveList.Pending < 10 ? '0'+leaveList.Pending : leaveList.Pending}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-success h-100">
+                    <div class="card-body bg-success">
+                        <h2>Approved Leave</h2>
+                        <h1 class="display-5">{{leaveList.Approved < 10 ? '0'+leaveList.Approved : leaveList.Approved}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-danger h-100">
+                    <div class="card-body bg-danger">
+                        <h2>Rejected Leave</h2>
+                        <h1 class="display-5">{{leaveList.Rejected < 10 ? '0'+leaveList.Rejected : leaveList.Rejected}}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 py-2">
+                <div class="card text-white bg-primary h-100">
+                    <div class="card-body">
+                        <h2>Total Leave</h2>
+                        <h1 class="display-5">{{totalLeave < 10 ? '0'+totalLeave : totalLeave}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
